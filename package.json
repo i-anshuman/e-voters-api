@@ -1,0 +1,34 @@
+{
+  "name": "election_commission",
+  "version": "1.0.0",
+  "description": "A web based portal for election commission.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/i-anshuman/election_commission.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "api",
+    "microservice"
+  ],
+  "author": "Anshuman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/i-anshuman/election_commission/issues"
+  },
+  "homepage": "https://github.com/i-anshuman/election_commission#readme",
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.21"
+  }
+}
