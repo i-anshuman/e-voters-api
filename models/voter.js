@@ -33,11 +33,14 @@ const voter = new Schema({
     required: [true, 'Gender is required.']
   },
   address: {
-    permanent: {
+    current: {
       type: Address,
-      required: [true, 'Permanent address is required.']
+      required: [true, 'Current address is required.']
     },
-    current: Address
+    permanent: {
+      type: Schema.Types.Mixed,
+      default: "Same as current address"
+    }
   },
   disability: {
     type: String,
