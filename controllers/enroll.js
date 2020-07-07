@@ -5,7 +5,7 @@ const enroll = voterInfo => {
     const voter = new Voter(voterInfo);
     voter.save((error, result) => {
       error ? reject(error) : resolve(result);
-    })
+    });
   });
 }
 
