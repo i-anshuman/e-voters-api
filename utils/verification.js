@@ -20,6 +20,8 @@ const isMobile = mobile => /^\d{3}-\d{3}-\d{4}$/.test(mobile);
 
 const isEmpty = str => !str || /^\s*$/.test(str);
 
+const isVoterID = id => /^[0-9a-f]{24}$/i.test(id);
+
 module.exports = {
   isName,
   isRelation,
@@ -35,5 +37,6 @@ module.exports = {
   isEmail,
   isMobile,
   isString: isName,
-  isEmpty
+  isEmpty,
+  isVoterID
 };
