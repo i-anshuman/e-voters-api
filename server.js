@@ -1,15 +1,31 @@
 const express    = require('express');
+const mongoose   = require('mongoose');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const app = express();
+const enroll = require('./routes/enroll');
+const search = require('./routes/search');
+const download = require('./routes/download');
+const statistics = require('./routes/statistics');
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ type: "application/json", limit: '1.5MB' }));
+mongoose.connect(process.env.DATABASE, {
+  useCreateIndex: true,
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true
+}).catch(error => console.log("Connection Error: ", error)); // Handle initail connection error.
 
-app.get('/', (req, res) => {
-  res.send(`
-    <h1>A web based portal for election commission.</h1>
-  `);
+const db = mongoose.connection;
+db.on('open', () => {
+  app.use('/enroll', enroll);
+  app.use('/search', search);
+  app.use('/download', download);
+  app.use('/statistics', statistics);
 });
+
+// Handle errors after initial connection.
+db.on('error', error => console.log("Connection Error: ", error));
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`Server is running on port ${port}`));
