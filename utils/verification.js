@@ -10,13 +10,13 @@ const isHouseNumber = houseNumber => /^\d+$/.test(houseNumber);
 
 const isPin = pin => /^[1-9]\d{5}$/.test(pin);
 
-const isState = state => /^[A-Za-z]+([ ]?[A-Za-z0-9]+)+$/.test(state);
+const isState = state => /^[A-Za-z]+([ ]?[A-Za-z0-9()]+)+$/.test(state);
 
 const isLocality = locality => /^[A-Za-z]+([ ]?[A-Za-z0-9,.-]+)+$/.test(locality);
 
 const isEmail = email => /^\w+@\w+\.\w+$/.test(email);
 
-const isMobile = mobile => /^\d{3}-\d{3}-\d{4}$/.test(mobile);
+const isMobile = mobile => /^\d{10}$/.test(mobile);
 
 const isEmpty = str => !str || /^\s*$/.test(str);
 

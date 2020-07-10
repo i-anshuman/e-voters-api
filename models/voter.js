@@ -29,7 +29,6 @@ const voter = new Schema({
   },
   gender: {
     type: String,
-    enum: ['Male', 'Female', 'Third Gender'],
     required: [true, 'Gender is required.']
   },
   address: {
