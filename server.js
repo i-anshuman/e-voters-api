@@ -7,7 +7,6 @@ const enroll = require('./routes/enroll');
 const search = require('./routes/search');
 const download = require('./routes/download');
 const statistics = require('./routes/statistics');
-require('dotenv').config();
 app.use(cors());
 app.use(bodyParser.json({ type: "application/json", limit: '1.5MB' }));
 mongoose.connect(process.env.DATABASE, {
