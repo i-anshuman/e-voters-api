@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Election Commission</title>
+</head>
+<body>
+  <h1>E-voters: online portal for new voters registration.</h1>
+  <hr />
+  <ol>
+    <li>It is a web based portal for election commission.</li>
+    <li>It is an assignment project given by <a href="https://upskill.techzillaindia.com/" target="_blank">UpSkill</a></li>
+  </ol>
+  <hr />
+  <h2>Purpose</h2>
+    <ol>
+      <li>New Voter Registration.</li>
+      <li>Registered Voter Search.</li>
+      <li>Voter ID Card Download.</li>
+    </ol>
+  <hr/>
+  <h2>Requirements</h2>
+  <ul>
+    <li>New voter registration form with required fields and a mandatory photo upload option.</li>
+    <li>An option for the voter to search by name, area, etc.</li>
+    <li>If voter exist, then an option to download voter ID card in PDF format.</li>
+    <li>Graphical data representation of the number of registered voters statewise.</li>
+  </ul>
+  <hr/>
+  <h2>API Usage</h2>
+  <ol>
+    <li>
+      <h3>Register new user</h3>
+      <hr/>
+      <code>POST /enroll</code>
+      <code>
+        <pre>
+          payload = {
+            constituency: String,
+            name: String,
+            surname: String,
+            relative: String,
+            relation: String,
+            dob: String, //YYYY-MM-DD format
+            gender: String,
+            photo: Image, //base64 format,
+            email: String,
+            mobile: String,
+            disability: String,
+            address: {
+              current: {
+                house: String|Number,
+                area: String,
+                block: String,
+                post: String,
+                pin: String,
+                district: String,
+                state: String
+              },
+              permanent: {
+                house: String|Number,
+                area: String,
+                block: String,
+                post: String,
+                pin: String,
+                district: String,
+                state: String
+              }
+            }
+          }
+        </pre>
+      </code>
+      <p>All fields are required except <code>email</code>, <code>mobile</code>, <code>disability</code> and <code>address.permanent</code></p>
+      <code><pre>
+        Response:
+        {
+          voterID: "voter id",
+          enrolledOn: "date of enrollement"
+        }
+      </pre></code>
+    </li>
+    <li>
+      <h3>Search</h3>
+      <hr />
+      <code>GET /search</code>
+      <code><pre>
+        payload = {
+          [field]: [value],
+          [field]: [value],
+          ......
+        }
+      </pre></code>
+      <code><pre>
+        Response:
+        {
+          voters: [...]
+        }
+      </pre></code>
+    </li>
+    <li>
+      <h3>Download</h3>
+      <hr/>
+      <code>GET /download?voterID=....</code>
+    </li>
+    <li>
+      <h3>Statistics</h3>
+      <hr>
+      <code>GET /statistics</code>
+      <code>
+        <pre>
+          Response
+          {
+            result: [
+              {
+                _id: State,
+                count: Total Voters
+              },
+              ....
+            ]
+          }
+        </pre>
+      </code>
+    </li>
+  </ol>
+  <script>
+    // Registration form data
+    const data = {
+      constituency: "Muzaffarpur",
+      name: "Anshuman",
+      surname: "Sarraf",
+      relative: "Dayanand Prasad",
+      relation: "Father",
+      dob: "1997-11-02",
+      gender: "Male",
+      address: {
+        current: {
+          house: "10",
+          area: "Nai Bazaar, Yadupati Lane",
+          block: "Musahari",
+          post: "Head Post Office",
+          pin: "842001",
+          district: "Muzaffarpur",
+          state: "Bihar"
+        },
+        permanent: {
+          house: "65",
+          area: "Nai Bazaar, Yadupati Lane",
+          block: "Musahari",
+          post: "Head Post Office",
+          pin: "842001",
+          district: "Muzaffarpur",
+          state: "UP"
+        }
+      }
+    };
+
+    const toBase64String = file => {
+      return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.addEventListener('load', () => {
+          resolve(fileReader.result);
+        });
+        if (file) {
+          fileReader.readAsDataURL(file);
+        }
+      });
+    }
+    
+    document.getElementById('photo').onchange = async (e) => {
+      const image = e.target
+      data.image = await toBase64String(image.files[0]);
+    }
+    document.getElementById('register').onclick = e => {
+      fetch('/enroll', {
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(res => {
+        document.getElementById('info').innerHTML = JSON.stringify(res, null, 2);
+      })
+      .catch(err => console.log(err));
+    }
+  </script>
+</body>
+</html>
